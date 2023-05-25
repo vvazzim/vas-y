@@ -137,8 +137,8 @@ module.exports = {
     colors: () => ({
       white: "#ffffff",
       lightPrimary: "#F4F7FE",
-      blueSecondary: "#4318FF",
-      brandLinear: "#868CFF",
+      blueSecondary: "#2619df",
+      brandLinear: "#2619df",
       gray: {
         50: "#f8f9fa",
         100: "#edf2f7",
@@ -326,8 +326,6 @@ module.exports = {
   },
   plugins: [require("tailwindcss-rtl")],
 
-  plugins: [
-    require('flowbite/plugin')
-  ],
+
 
 };

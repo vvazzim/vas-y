@@ -1,6 +1,8 @@
 import React, { useState , useEffect } from 'react';
 import BouttonAjouterP from './AddPatientAction';
 import ThreeDotsDropdown from './dropDownPatient';
+import {obtenirPatient} from "../../../../api";
+import Card from "../../../../components/card";
 
 export default function PatientListPage() {
   const [showModal, setShowModal] = useState(false);
@@ -12,16 +14,19 @@ export default function PatientListPage() {
   };
 
   // get patients from API
+
   useEffect(() => {
-    fetch('http://localhost:5000/Utilisateur?typeUtilisateur=Patient')
-        .then(response => response.json())
-        .then(data => setPatients(data))
-        .catch(error => console.error('Error:', error));
+    const getPatients = async () => {
+      const data = await obtenirPatient();
+      setPatients(data);
+    }
+
+    getPatients();
   }, []);
 
   return (
 
-    <section className="bg-gray-50 dark:bg-navy-900 p-3 sm:p-5 antialiased">
+    <Card className="bg-gray-50 dark:bg-navy-900 p-3 sm:p-5 antialiased">
       <div className="mx-auto max-w-screen-xl px-1 lg:px-19">
         <div className="bg-white dark:bg-navy-800 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -172,7 +177,7 @@ export default function PatientListPage() {
           </nav>
         </div>
       </div>
-    </section>
+    </Card>
 
   );
 }

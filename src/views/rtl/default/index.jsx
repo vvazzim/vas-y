@@ -1,4 +1,5 @@
-import MiniCalendar from "components/calendar/MiniCalendar";
+import MiniCalendar from 'components/calendar/MiniCalendar';
+
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
 import TotalSpent from "views/admin/default/components/TotalSpent";
 import PieChartCard from "views/admin/default/components/PieChartCard";

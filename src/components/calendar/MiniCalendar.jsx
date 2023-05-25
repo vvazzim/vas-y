@@ -1,26 +1,14 @@
+
 import React, { useState } from "react";
-import Calendar from "react-calendar";
-import Card from "components/card";
-import "react-calendar/dist/Calendar.css";
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import "assets/css/MiniCalendar.css";
+import { Calendar } from 'primereact/calendar';
 
-const MiniCalendar = () => {
-  const [value, onChange] = useState(new Date());
+export default function InlineDemo() {
+    const [date, setDate] = useState(null);
 
-  return (
-    <div>
-      <Card extra="flex w-full h-full flex-col px-3 py-3">
-        <Calendar
-          onChange={onChange}
-          value={value}
-          prevLabel={<MdChevronLeft className="ml-1 h-6 w-6 " />}
-          nextLabel={<MdChevronRight className="ml-1 h-6 w-6 " />}
-          view={"month"}
-        />
-      </Card>
-    </div>
-  );
-};
+    return (
+        <div className="card flex justify-content-center">
+            <Calendar value={date} onChange={(e) => setDate(e.value)} inline showWeek />
+        </div>
 
-export default MiniCalendar;
+    )
+}

@@ -4,10 +4,13 @@ import Icon from '@mdi/react';
 import { mdiAccountCircle } from '@mdi/js';
 import {MdAssignmentTurnedIn} from "react-icons/md";
 import AjouterRDV from "./addRdv";
-import {obtenirRdv} from "../../../../../src/api";
+import Dropdown from "../../../../components/dropdown/index";
+import {obtenirRdv} from "../../../../api";
+import ActionDropdown from "../../../../components/dropdown/ActionDropdown";
 
 
 const RdvList = () => {
+    const menuItems = ['Effacé', 'Item 2', 'Item 3'];
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -61,52 +64,19 @@ const RdvList = () => {
         }
     }
 
-    return (
+    return (//className="mx-auto max-w-screen-xl px-1 lg:px-19"
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6 dark:text-white">
-            <div className="flex items-center justify-between pb-4 bg-white dark:bg-gray-900">
-                <div className="mt-4 pl-2">
+            <div className="flex it ems-center justify-between pb-4 g-whitbe dark:bg-gray-900">
+                <div>
+                    <ActionDropdown items={menuItems}>Action</ActionDropdown>
 
-                    <div id="dropdownAction"
-                         className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                        <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
-                                className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                type="button">
-                            <span className="sr-only">Action button</span>
-                            Action
-                            <svg className="w-3 h-3 ml-2" aria-hidden="true" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownActionButton">
-                            <li>
-                                <a href="#"
-                                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate
-                                    account</a>
-                            </li>
-                        </ul>
-                        <div className="py-1">
-                            <a href="#"
-                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete
-                                User</a>
-                        </div>
-                    </div>
                 </div>
                 <button
-                    className="inline-flex items-center text-white bg-blue-600 border border-transparent focus:outline-none hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 ml-2"
+                        className= " relative w-full m-2 flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                     type="button"
                     onClick={handleOpenModal}
                 >
-                    Ajouter RDV
+                    +  Ajouter RDV
                 </button>
                 {isModalOpen && <AjouterRDV closeModal={handleCloseModal} />}
                 <div className="relative mt-4 pr-4">
@@ -121,7 +91,7 @@ const RdvList = () => {
                            placeholder="Search for users"/>
                 </div>
 
-                </div>
+            </div>
             <table className="table-auto w-full">
                 <thead className="table-auto w-full text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
                 <tr>

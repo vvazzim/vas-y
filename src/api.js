@@ -13,7 +13,24 @@ export const apiRdv = axios.create({
   baseURL: 'http://localhost:5000/Rdv', // The correct URL for appointment-related requests
 });
 
+export const apiAgenda = axios.create({
+  baseURL: 'http://localhost:5000/agendas', // The correct URL for appointment-related requests
+});
+
 // ...
+
+export const obtenirPatient = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/Utilisateur?typeUtilisateur=Patient');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
+
 
 export const ajouterAssistant = async (assistantData) => {
   try {
@@ -85,8 +102,21 @@ const handleApiError = (error, errorMessage) => {
   throw error;
 };
 
+
+
+const getAgenda = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/agenda/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting agenda:", error);
+  }
+};
+
+
 export default {
   apiUtilisateur,
   apiAssistant,
   apiRdv,
+  apiAgenda
 };

@@ -24,7 +24,7 @@ function getTodoList(date) {
     }
 }
 
-const MiniCalendar = () => {
+const MiniCalendar1 = () => {
     function renderCell(date) {
         const list = getTodoList(date);
         const displayList = list.filter((item, index) => index < 2);
@@ -69,4 +69,4 @@ const MiniCalendar = () => {
     return <Calendar bordered renderCell={renderCell} />;
 };
 
-export default MiniCalendar;
+export default MiniCalendar1;
