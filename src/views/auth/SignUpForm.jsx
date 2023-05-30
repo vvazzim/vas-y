@@ -45,7 +45,7 @@ export default function InscriptionForm() {
     e.preventDefault();
 
     const email = e.target.elements.email.value;
-    const motDePasse = e.target.elements.password.value;
+    const motDePasse = e.target.elements.motDePasse.value; // Change to match id of InputField
     const nom = e.target.elements.nom.value;
     const prenom = e.target.elements.prenom.value;
     const telephone = e.target.elements.telephone.value;
@@ -54,7 +54,7 @@ export default function InscriptionForm() {
 
     let userObj = {
       email,
-      motDePasse,
+      motDePasse, // Change to match form field id
       nom,
       prenom,
       telephone,
@@ -65,18 +65,18 @@ export default function InscriptionForm() {
     if (typeUtilisateur === 'assistant') {
       userObj.medecin = medecin;
       userObj.cabinetMedical = cabinetMedical;
-      try {
-        let response = await axios.post('http://localhost:5000/assistant', userObj);
-        console.log("User data sent: ", userObj);
-        console.log("Server response: ", response.data);
-      }
-      catch (error) {
-        console.error("Error sending data: ", error);
-      }
-    } else {
-      console.log("User is not an assistant, data not sent.");
+    }
+
+    try {
+      let response = await axios.post('http://localhost:5000/register', userObj); // Changed from '/assistant' to '/register'
+      console.log("User data sent: ", userObj);
+      console.log("Server response: ", response.data);
+    }
+    catch (error) {
+      console.error("Error sending data: ", error);
     }
   };
+
 
 
     return (
@@ -162,12 +162,12 @@ export default function InscriptionForm() {
               {typeUtilisateur === 'assistant' && (
                   <>
                     {/*// Medecin*/}
-                    {/*<label className="mb-3" htmlFor="medecin">Medecin*</label>*/}
-                    {/*<select id="medecin" onChange={(e) => { setMedecin(e.target.value); console.log('Medecin Selected:', e.target.value); }} className="w-full px-4 py-2 mb-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">*/}
-                    {/*  {medecins.map((medecin) => (*/}
-                    {/*      <option key={medecin._id} value={medecin._id}>{medecin.name}</option>*/}
-                    {/*  ))}*/}
-                    {/*</select>*/}
+                    <label className="mb-3" htmlFor="medecin">Medecin*</label>
+                    <select id="medecin" onChange={(e) => { setMedecin(e.target.value); console.log('Medecin Selected:', e.target.value); }} className="w-full px-4 py-2 mb-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                      {medecins.map((medecin) => (
+                          <option key={medecin._id} value={medecin._id}>{medecin.name}</option>
+                      ))}
+                    </select>
 
                     {/*// CabinetMedical*/}
                     <label className="mb-3" htmlFor="cabinetMedical">CabinetMedical*</label>
