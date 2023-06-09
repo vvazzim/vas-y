@@ -20,56 +20,51 @@ const Dashboard = () => {
     <div>
       {/* Card widget */}
 
-      <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
-        <Widget
-          icon={<MdBarChart className="h-7 w-7" />}
-          title={""}
-          subtitle={""}
-        />
-        <Widget
-          icon={<IoDocuments className="h-6 w-6" />}
-          title={""}
-          subtitle={""}
-        />
-        <Widget
-          icon={<MdBarChart className="h-7 w-7" />}
-          title={""}
-          subtitle={""}
-        />
-        <Widget
-          icon={<MdDashboard className="h-6 w-6" />}
-          title={""}
-          subtitle={""}
-        />
-        <Widget
-          icon={<MdBarChart className="h-7 w-7" />}
-          title={""}
-          subtitle={""}
-        />
-        <Widget
-          icon={<IoMdHome className="h-6 w-6" />}
-          title={""}
-          subtitle={""}
-        />
-      </div>
+      {/*<div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">*/}
+      {/*  <Widget*/}
+      {/*    icon={<MdBarChart className="h-7 w-7" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*  <Widget*/}
+      {/*    icon={<IoDocuments className="h-6 w-6" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*  <Widget*/}
+      {/*    icon={<MdBarChart className="h-7 w-7" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*  <Widget*/}
+      {/*    icon={<MdDashboard className="h-6 w-6" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*  <Widget*/}
+      {/*    icon={<MdBarChart className="h-7 w-7" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*  <Widget*/}
+      {/*    icon={<IoMdHome className="h-6 w-6" />}*/}
+      {/*    title={""}*/}
+      {/*    subtitle={""}*/}
+      {/*  />*/}
+      {/*</div>*/}
 
-      {/* Charts */}
 
-      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        <TotalSpent />
-        <WeeklyRevenue />
-      </div>
 
       {/* Tables & Charts */}
 
       <div className="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-        {/* Check Table */}
-        <div>
-          <CheckTable
-            columnsData={columnsDataCheck}
-            tableData={tableDataCheck}
-          />
-        </div>
+        {/*/!* Check Table *!/*/}
+        {/*<div>*/}
+        {/*  <CheckTable*/}
+        {/*    columnsData={columnsDataCheck}*/}
+        {/*    tableData={tableDataCheck}*/}
+        {/*  />*/}
+        {/*</div>*/}
 
         {/* Traffic chart & Pie Chart */}
 
@@ -93,6 +88,12 @@ const Dashboard = () => {
             <MiniCalendar />
           </div>
         </div>
+      </div>
+      {/* Charts */}
+
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <TotalSpent />
+        <WeeklyRevenue />
       </div>
     </div>
   );

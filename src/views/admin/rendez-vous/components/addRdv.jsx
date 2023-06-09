@@ -1,28 +1,41 @@
-
-import React from 'react';
-import axios from 'axios';
-import { apiRdv } from '../../../../api';
+import React, { useEffect, useState } from 'react';
+import { obtenirMedecins, obtenirCabinetsMedicaux, ajouterRdv, obtenirPatient } from '../../../../api';
 
 const AjouterRDV = ({ closeModal }) => {
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    const newRDV = {
-        patientId: event.target.patientId.value,
-        date: event.target.date.value,
-        heureDebut: event.target.heureDebut.value,
-        statut: event.target.statut.value,
-        // Add more fields as necessary for your RDV
-    };
+    const [medecins, setMedecins] = useState([]);
+    const [cabinets, setCabinets] = useState([]);
+    const [patients, setPatients] = useState([]);
+    const [selectedMedecin, setSelectedMedecin] = useState('');
+    const [selectedCabinet, setSelectedCabinet] = useState('');
+    const [selectedPatient, setSelectedPatient] = useState('');
+    const [rdvData, setRdvData] = useState({ date: '', heureDebut: '', heureFin: '' });
 
-    try {
-        const response = await apiRdv.post('/', newRDV);
-        if (response.status === 200) {
-            console.log("RDV ajouté avec succès");
+    useEffect(() => {
+        obtenirMedecins().then(setMedecins);
+        obtenirCabinetsMedicaux().then(setCabinets);
+        obtenirPatient().then(setPatients);
+    }, []);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const rdv = {
+            patientId: selectedPatient,
+            medecinId: selectedMedecin,
+            cabinetId: selectedCabinet,
+            date: rdvData.date,
+            heureDebut: rdvData.heureDebut,
+            statut: 'En attente de validation',
+        };
+
+        try {
+            const response = await ajouterRdv(rdv);
+            if (response.status === 200) {
+                closeModal();
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'ajout du RDV", error);
         }
-    } catch (error) {
-        console.error("Erreur lors de l'ajout du RDV", error);
-    }
-};
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-filter backdrop-blur-sm bg-opacity-50">
@@ -54,33 +67,106 @@ const handleSubmit = async (event) => {
 
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label for="patientId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID du patient</label>
-                            <input type="text" name="patientId" id="patientId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Saisissez l'ID du patient" required="" />
+                            <label htmlFor="patientId" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ID du patient
+                            </label>
+                            <select
+                                name="patientId"
+                                id="patientId"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value={selectedPatient}
+                                onChange={(e) => setSelectedPatient(e.target.value)}
+                                required
+                            >
+                                <option value="">Sélectionnez un patient</option>
+                                {patients.map((patient) => (
+                                    <option key={patient._id} value={patient._id}>
+                                        {patient.nom} {patient.prenom}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div>
-                            <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                            <input type="date" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" />
+                            <label htmlFor="medecinId" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Médecin
+                            </label>
+                            <select
+                                name="medecinId"
+                                id="medecinId"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value={selectedMedecin}
+                                onChange={(e) => setSelectedMedecin(e.target.value)}
+                                required
+                            >
+                                <option value="">Sélectionnez un médecin</option>
+                                {medecins.map((medecin) => (
+                                    <option key={medecin._id} value={medecin._id}>
+                                        {medecin.nom} {medecin.prenom}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div>
-                            <label for="heureDebut" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Heure de début</label>
-                            <input type="time" name="heureDebut" id="heureDebut" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" />
+                            <label htmlFor="cabinetId" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Cabinet médical
+                            </label>
+                            <select
+                                name="cabinetId"
+                                id="cabinetId"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value={selectedCabinet}
+                                onChange={(e) => setSelectedCabinet(e.target.value)}
+                                required
+                            >
+                                <option value="">Sélectionnez un cabinet médical</option>
+                                {cabinets.map((cabinet) => (
+                                    <option key={cabinet._id} value={cabinet._id}>
+                                        {cabinet.nom}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div>
-                            <label for="statut" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Statut</label>
-                            <input type="text" name="statut" id="statut" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Saisissez le statut du RDV" required="" />
+                            <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Date
+                            </label>
+                            <input
+                                type="date"
+                                name="date"
+                                id="date"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value={rdvData.date}
+                                onChange={(e) => setRdvData({ ...rdvData, date: e.target.value })}
+                                required
+                            />
                         </div>
-
-                        <div class="mt-4">
-                            <button type="submit" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-lg shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <div>
+                            <label htmlFor="heureDebut" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Heure de début
+                            </label>
+                            <input
+                                type="time"
+                                name="heureDebut"
+                                id="heureDebut"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value={rdvData.heureDebut}
+                                onChange={(e) => setRdvData({ ...rdvData, heureDebut: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="mt-4">
+                            <button
+                                type="submit"
+                                className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-lg shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                            >
                                 Ajouter
                             </button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AjouterRDV;

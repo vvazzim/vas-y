@@ -121,12 +121,12 @@ export default function PatientListPage() {
               {patients.map(patient => (
                   <tr className="border-b dark:border-gray-700 relative">
                     <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.NSS || ''}</th>
-                    <td className="px-4 py-3">{(patient.motDePasse) || ''}</td>
+                    <td className="px-4 py-3">{patient.password || ''}</td>
                     <td className="px-4 py-3">{patient.prenom || ''}</td>
                     <td className="px-4 py-3 max-w-[12rem] truncate">{patient.adresse || ''}</td>
                     <td className="px-4 py-3">{patient.email || ''}</td>
                     <td className="px-4 py-3 flex items-center justify-end">
-                      <ThreeDotsDropdown />
+                      <ThreeDotsDropdown/>
                     </td>
                   </tr>
               ))}
@@ -178,6 +178,5 @@ export default function PatientListPage() {
         </div>
       </div>
     </Card>
-
   );
 }

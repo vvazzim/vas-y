@@ -12,6 +12,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fullcalendar/core": "^6.1.7",
+    "@fullcalendar/daygrid": "^6.1.8",
     "@mdi/js": "^7.2.96",
     "@mdi/react": "^1.6.1",
     "@react-three/fiber": "^8.13.0",
@@ -54,8 +55,8 @@
     ]
   },
   "rules": {
-  "react/react-in-jsx-scope": "off"
-},
+    "react/react-in-jsx-scope": "off"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -69,6 +70,8 @@
     ]
   },
   "devDependencies": {
+    "@fullcalendar/multimonth": "^6.1.8",
+    "@fullcalendar/react": "^6.1.8",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",
     "prettier": "^2.8.3",
